@@ -1,3 +1,3 @@
 $(() => {
-    console.log('teste, app iniciado');
+    alert('teste, app iniciado');
 });

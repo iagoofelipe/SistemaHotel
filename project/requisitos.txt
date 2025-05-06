@@ -1,0 +1,12 @@
+- sistema para gerenciamento de quartos e reservas em um hotel
+- o sistema deve armazenar os quartos disponíveis, bem como suas características que os diferenciam
+- atributos de um quarto:
+    - valor quarto
+    - valor adicional por hora
+    - se para fumantes
+    - se possui televisão
+    - se possui ar condicionado
+    - se possui hidromassagem
+- o sistema deve permitir a reserva de um quarto, de acordo com os atributos requeridos pelo cliente
+- o sistema não poderá exibir atributos caso não hajam quartos que os satisfaçam
+- o sistema deve exibir uma área com os quartos disponíveis e ocupados, bem como suas características (em tabela ou semelhante)
