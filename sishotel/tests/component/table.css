@@ -1,0 +1,27 @@
+.table-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.table-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+
+    color: rgb(126, 126, 126);
+    font-size: 10pt;
+}
+
+.table-nav .btn {
+    font-size: 11pt;
+    border: 1px solid lightgray;
+}

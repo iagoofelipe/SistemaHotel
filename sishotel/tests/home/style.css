@@ -1,12 +1,23 @@
 :root {
     --line-color: rgba(0, 0, 0, 0.2);
-    --bg-primary: #F7F7F7;
+    --bg: #F7F7F7;
+    --bg-card-title: #FAFAFA;
+    --subtitle-color: rgb(126, 126, 126);
 }
 
 body {
     display: flex;
     height: 100vh;
-    background-color: var(--bg-primary);
+    background-color: var(--bg);
+
+    font-family: "Roboto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+p {
+    margin: 0;
 }
 
 .hline {
@@ -21,11 +32,90 @@ body {
     background-color: var(--line-color);
 }
 
+.title {
+    font-size: 15pt;
+}
+
+.subtitle {
+    color: var(--subtitle-color);
+    font-size: 10pt;
+}
+
+.btn:hover * {
+    cursor: pointer;
+}
+
+.box-quantity-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.card {
+    padding: 30px;
+}
+
+.card-title {
+    /* background-color: var(--bg-card-title); */
+    color: rgb(95, 95, 95);
+    /* height: 80px; */
+    /* display: flex;
+    align-items: center; */
+    font-weight: 500;
+    /* padding-top: 20px; */
+}
+
+.quantity-card {
+    padding: 10px;
+}
+
+.card-value {
+    font-weight: bold;
+    font-size: 20pt;
+}
+
+.circule-before::before {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: rgb(0, 0, 0);
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.circule-total::before {
+    background-color: rgb(35, 69, 133);
+}
+
+.circule-pending::before {
+    background-color: rgb(207, 144, 71);
+}
+
+.circule-completed::before {
+    background-color: rgb(83, 182, 88);
+}
+
+.circule-canceled::before {
+    background-color: rgb(156, 58, 58);
+}
+
+.table-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.table-nav .btn {
+    font-size: 11pt;
+    border: 1px solid var(--line-color);
+}
+
 #container-sidebar {
     padding: 10px;
 
     .title {
-        font-size: 18pt;
         padding-left: 10px;
     }
 
@@ -35,7 +125,7 @@ body {
     }
 
     .nav-btn {
-        padding: 10px;
+        padding: 5px 10px;
         width: 200px;
 
         label {
@@ -43,13 +133,54 @@ body {
         }
     
     }
-    
-    .nav-btn:hover {
-        background-color: #E5F5C9;
-        border-radius: 5px;
 
-        label {
-            text-decoration: underline;
-        }
+    .nav-btn:hover label {
+        text-decoration: underline;
+    }
+
+    .nav-btn-focus {
+        background-color: #ffffff;
+        border: 1px solid var(--line-color);
+    }
+    
+    .nav-btn:hover, .nav-btn-focus {
+        border-radius: 5px;
+    }
+}
+
+#container-center {
+    width: 100%;
+    margin: 10px 10px 10px 0;
+
+    .title {
+        font-size: 15pt;
+    }
+}
+
+/*
+-------------------------------------------------------
+Reservas
+*/
+
+#container-reservas {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .box-quantity-cards {
+        grid-template-columns: repeat(4, 1fr);
+        margin-bottom: var(--bs-card-title-spacer-y);
+        /* margin: var(--bs-card-title-spacer-y) 0; */
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--bs-card-title-spacer-y);
+    }
+
+    .table-foot {
+        margin-top: var(--bs-card-title-spacer-y);
     }
 }
