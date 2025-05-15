@@ -3,24 +3,70 @@
 {% load static %}
 
 {% block scripts %}
-<script src="{% static 'scripts/home.js' %}"></script>
+<script type="module" src="{% static 'scripts/home.js' %}"></script>
 {% endblock %}
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'styles/home.css' %}">
+<link rel="stylesheet" href="{% static 'styles/components/table.css' %}">
 {% endblock %}
 
 
 {% block body %}
 <div id="container-sidebar">
-    <p>Sistema Hotel</p>
-    <ul id="sidebar-btns">
-        <li>Reservas</li>
-        <li>Quartos</li>
-    </ul>
+    <p class="title">Sistema Hotel</p>
+    <div class="nav-btns">
+        <!-- <div class="nav-btn" id="nav-btn-home">
+            <i class="fa-solid fa-house" id="icon-nav-btn-home"></i>
+            <label for="icon-nav-btn-home">Home</label>
+        </div> -->
+        <div class="nav-btn" id="nav-btn-reservas">
+            <i class="fa-solid fa-list-check" id="icon-nav-btn-reservas"></i>
+            <label for="icon-nav-btn-reservas">Reservas</label>
+        </div>
+        <div class="nav-btn" id="nav-btn-clientes">
+            <i class="fa-solid fa-users" id="icon-nav-btn-clientes"></i>
+            <label for="icon-nav-btn-clientes">Clientes</label>
+        </div>
+    </div>
 </div>
 
-{% block content %}
-{% endblock %}
+<div id="container-center" class="card">
+    <!-- <div id="container-home" style="display: none;">
+        <p class="card-title">Conteúdo Home</p>
+    </div> -->
+
+    <div id="container-reservas" style="display: none;">
+        <p class="card-title">Reservas</p>
+
+        <div class="box-quantity-cards">
+            <div class="card quantity-card">
+                <p class="card-value">200</p>
+                <p class="subtitle circule-before circule-total">Total Mensal</p>
+            </div>
+            <div class="card quantity-card">
+                <p class="card-value">20</p>
+                <p class="subtitle circule-before circule-pending">Pendentes</p>
+            </div>
+            <div class="card quantity-card">
+                <p class="card-value">180</p>
+                <p class="subtitle circule-before circule-completed">Concluídas</p>
+            </div>
+            <div class="card quantity-card">
+                <p class="card-value">180</p>
+                <p class="subtitle circule-before circule-canceled">Canceladas</p>
+            </div>
+        </div>
+
+        <!-- adiciona via script a tabela -->
+    </div>
+
+    <div id="container-clientes" style="display: none;">
+        <p class="card-title">Clientes</p>
+
+        <!-- adiciona via script a tabela -->
+    </div>
+
+</div>
 
 {% endblock %}
