@@ -7,6 +7,9 @@
 #include <QVariant>
 #include <QStringList>
 
+namespace api
+{
+
 enum EndPoint {
     GET_ROOMS,
     GET_GUESTS,
@@ -58,52 +61,45 @@ class HotelAPI : public QObject
 public:
     explicit HotelAPI(QObject *parent = nullptr);
 
+    // ------------------------------------------------------------------------
+    // Public Static
     static const QStringList RoomTableLabels;
 
     static QString getUrlByEndPointId(EndPoint ep);
+    static void displayDebugResponseRooms(Response response, MapRooms *rooms);
+    static void displayDebugResponseGuests(Response response, MapGuests *guests);
+    static void displayDebugResponseReserves(Response response, MapReserves *reserves);
 
+    // ------------------------------------------------------------------------
+    // Public Methods
     void initialize();
     void query(EndPoint ep, const QMap<QString, QString>& params);
     void create(EndPoint ep, QJsonObject json);
-
     void parseRoomsFromJson(MapRooms& rooms, const QJsonArray& array);
     void parseGuestsFromJson(MapGuests& guests, const QJsonArray& array);
     void parseReservesFromJson(MapReserves& reserves, const QJsonArray& array);
-
-    // MapRooms* getRooms();
-    // MapGuests* getGuests();
-    // MapReserves* getReserves();
 
 signals:
     void initializationFinished(bool success);
     void queryFinished(Response response);
     void createFinished(Response response);
 
-    // void roomsDataUpdateRequired();
-    // void roomsDataReady(Response response, MapRooms *rooms);
-    // void guestsDataReady(Response response, MapGuests *guests);
-    // void reservesDataReady(Response response, MapReserves *reserves);
-
 private:
+    // ------------------------------------------------------------------------
+    // Private Static
     const static QString baseUrl;
 
+    // ------------------------------------------------------------------------
+    // Private Attributes
     QNetworkAccessManager manager;
-    // MapRooms rooms;
-    // MapGuests guests;
-    // MapReserves reserves;
-    // QMap<EndPoint, QUrl> cacheUrlQuery;
 
+    // ------------------------------------------------------------------------
+    // Private Methods
     Response generateResponse(EndPoint ep, QNetworkReply *reply);
-    // MapRooms* generateRoomsFromJArray(bool success, const QJsonArray& array);
-    // MapGuests* generateGuestsFromJArray(bool success, const QJsonArray& array);
-    // MapReserves* generateReservesFromJArray(bool success, const QJsonArray& array);
-
-private slots:
-    // void on_queryFinished(EndPoint ep, QNetworkReply *reply);
-    // void on_createFinished(EndPoint ep, QNetworkReply *reply);
-    // void on_roomsDataReady(Response response, MapRooms *rooms);
-    // void on_guestsDataReady(Response response, MapGuests *guests);
-    // void on_reservesDataReady(Response response, MapReserves *reserves);
+    
+    // ------------------------------------------------------------------------
 };
+
+}
 
 #endif // HOTELAPI_H
