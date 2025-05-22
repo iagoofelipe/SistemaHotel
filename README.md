@@ -4,6 +4,10 @@ Aplicação para o gerencimanto de quartos de um hotel, utilizando Python.
 # API
 Endpoints disponíveis na API.
 
+## /api
+### GET
+Retorna um conteúdo vazio, apenas para fins de teste de conexão.
+
 ## /api/room
 
 ### GET
@@ -240,7 +244,7 @@ Retorna os dados do cliente especificado.
 | --- | --- |
 | id | string |
 | name | string |
-| floor | num |
+| floor | int |
 | nightVal | double |
 | hourVal | double |
 | numCoupleBed | int |
@@ -253,7 +257,7 @@ Retorna os dados do cliente especificado.
 | Parâmetro | Tipo | Valor Padrão |
 | --- | --- | --- |
 | name | string |
-| floor | num | 0 |
+| floor | int | 0 |
 | nightVal | double | 0 |
 | hourVal | double | 0 |
 | numCoupleBed | int | 0 |

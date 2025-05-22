@@ -2,10 +2,10 @@ import Table from "./components/table.js";
 import { TABLE_RESERVAS, TABLE_CLIENTES } from "./consts.js";
 
 $(() => {
-    let home = new Home();
+    let view = new MainView();
 });
 
-class Home {
+class MainView {
 
     #currentNavBtn = null;
     #currentContent = null;

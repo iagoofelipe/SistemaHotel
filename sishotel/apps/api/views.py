@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from datetime import datetime, timedelta
 
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 
 from .models import Room, Guest, Reserve
 from .serializers import RoomSerializer, GuestSerializer, ReserveSerializer
@@ -13,6 +13,10 @@ CURRENT_DATE = datetime.now()
 CURRENT_DATE_PLUS_7 = CURRENT_DATE + timedelta(days=7)
 STR_CURRENT_DATE = str(CURRENT_DATE)
 STR_CURRENT_DATE_PLUS_7 = str(CURRENT_DATE_PLUS_7)
+
+@api_view(['GET'])
+def index(request:HttpRequest):
+    return HttpResponse()
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def room(request:HttpRequest):
