@@ -8,8 +8,8 @@ Model::Model(QObject *parent)
     : QObject{parent}
     , api{this}
 {
-    connect(&api, &HotelAPI::initializationFinished, this, &Model::initializationFinished);
-    connect(&api, &HotelAPI::queryFinished, this, &Model::on_api_queryFinished);
+    connect(&api, &api::HotelAPI::initializationFinished, this, &Model::initializationFinished);
+    connect(&api, &api::HotelAPI::queryFinished, this, &Model::on_api_queryFinished);
 }
 
 void Model::initialize() {
@@ -28,7 +28,7 @@ void Model::queryReserves(const QMap<QString, QString>& params) {
     api.query(GET_RESERVES, params);
 }
 
-void Model::on_api_queryFinished(Response response) {
+void Model::on_api_queryFinished(api::Response response) {
     QJsonDocument jdoc = QJsonDocument::fromJson(response.data);
 
     // em caso de erro na consulta
