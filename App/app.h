@@ -1,10 +1,11 @@
 #ifndef APP_H
 #define APP_H
 
-#include <QApplication>
 #include "model.h"
 #include "mainwindow.h"
 #include "controller.h"
+
+#include <QApplication>
 
 class App : public QApplication
 {

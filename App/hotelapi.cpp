@@ -10,12 +10,17 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-const QString HotelAPI::baseUrl { "http://127.0.0.1:8000/api" };
+namespace api
+{
 
 HotelAPI::HotelAPI(QObject *parent)
     : QObject{parent}
 {
 }
+
+// ------------------------------------------------------------------------
+// Static
+const QString HotelAPI::baseUrl { "http://127.0.0.1:8000/api" };
 
 const QStringList HotelAPI::RoomTableLabels {
     "Nome", "Andar", "Valor", "QTD Camas Casal", "QTD Camas Solteiro", "Banheira", "Varanda"
@@ -37,11 +42,71 @@ QString HotelAPI::getUrlByEndPointId(EndPoint ep) {
     case GET_RESERVES:
         str_url += "/reserve";
         break;
+
+    default:
+        qDebug() << "undefined endpoint, using base url";
+        break;
     }
 
     return str_url;
 }
 
+void HotelAPI::displayDebugResponseRooms(Response response, MapRooms *rooms) {
+    qDebug() << "displayDebugResponseRooms" << "success" << response.success;
+
+    if(response.success && rooms)
+        for(auto [key, value] : rooms->asKeyValueRange()) {
+            qDebug()
+            << "<Room id" << value.id
+            << "name" << value.name
+            << "floor" << value.floor
+            << "nightVal" << value.nightVal
+            << "hourVal" << value.hourVal
+            << "numCoupleBed" << value.numCoupleBed
+            << "numSingleBed" << value.numSingleBed
+            << "bathtub" << value.bathtub
+            << "balcony" << value.balcony
+            << ">"
+                ;
+        }
+    else
+        qDebug() << "error" << response.error;
+}
+
+void HotelAPI::displayDebugResponseGuests(Response response, MapGuests *guests) {
+    qDebug() << "displayDebugResponseGuests" << "success" << response.success;
+
+    if(response.success && guests)
+        for(auto [key, value] : guests->asKeyValueRange()) {
+            qDebug()
+            << "<Guest id" << value.id
+            << "name" << value.name
+            << "email" << value.email
+            << ">"
+                ;
+        }
+    else
+        qDebug() << "error" << response.error;
+}
+
+void HotelAPI::displayDebugResponseReserves(Response response, MapReserves *reserves) {
+    qDebug() << "displayDebugResponseReserves" << "success" << response.success;
+
+    if(response.success && reserves)
+        for(auto [key, value] : reserves->asKeyValueRange()) {
+            qDebug()
+            << "<Reserve id" << value.id
+            << "checkIn" << value.checkIn
+            << "checkOut" << value.checkOut
+            << ">"
+                ;
+        }
+    else
+        qDebug() << "error" << response.error;
+}
+
+// ------------------------------------------------------------------------
+// Public Methods
 void HotelAPI::initialize() {
     QUrl url(baseUrl);
     QNetworkRequest request(url);
@@ -72,7 +137,7 @@ void HotelAPI::query(EndPoint ep, const QMap<QString, QString>& params) {
 
     QObject::connect(reply, &QNetworkReply::finished, this, [=]() {
         reply->deleteLater();
-        emit queryFinished(this->generateResponse(ep, reply));
+        emit this->queryFinished(this->generateResponse(ep, reply));
     });
 }
 
@@ -134,11 +199,6 @@ void HotelAPI::parseReservesFromJson(MapReserves& reserves, const QJsonArray& ar
     }
 }
 
-
-// MapRooms* HotelAPI::getRooms() { return &rooms; }
-// MapGuests* HotelAPI::getGuests() { return &guests; }
-// MapReserves* HotelAPI::getReserves() { return &reserves; }
-
 Response HotelAPI::generateResponse(EndPoint ep, QNetworkReply *reply) {
     bool success = reply->error() == QNetworkReply::NoError;
 
@@ -152,169 +212,4 @@ Response HotelAPI::generateResponse(EndPoint ep, QNetworkReply *reply) {
     };
 }
 
-/*
-MapRooms* HotelAPI::generateRoomsFromJArray(bool success, const QJsonArray& array) {
-    if(!success)
-        return nullptr;
-
-    rooms.clear();
-
-    for(const auto& jval : array) {
-        auto jobj = jval.toObject();
-        QString id = jobj["id"].toString();
-
-        rooms[id] = Room {
-            id, jobj["name"].toString(), jobj["floor"].toInt(),
-            jobj["nightVal"].toDouble(), jobj["hourVal"].toDouble(),
-            jobj["numCoupleBed"].toInt(), jobj["numSingleBed"].toInt(),
-            jobj["bathtub"].toBool(), jobj["balcony"].toBool(),
-        };
-    }
-
-    return &rooms;
 }
-
-MapGuests* HotelAPI::generateGuestsFromJArray(bool success, const QJsonArray& array) {
-    if(!success)
-        return nullptr;
-
-    guests.clear();
-
-    for(const auto& jval : array) {
-        auto jobj = jval.toObject();
-        QString id = jobj["id"].toString();
-
-        guests[id] = Guest {
-            id, jobj["name"].toString(), jobj["email"].toString(),
-        };
-    }
-
-    return &guests;
-}
-
-MapReserves* HotelAPI::generateReservesFromJArray(bool success, const QJsonArray& array) {
-    if(!success)
-        return nullptr;
-
-    reserves.clear();
-
-    for(const auto& jval : array) {
-        auto jobj = jval.toObject();
-        QString id = jobj["id"].toString();
-
-        reserves[id] = Reserve {
-            id, jobj["room"].toString(), jobj["guest"].toString(),
-            jobj["checkIn"].toString(), jobj["checkOut"].toString(),
-        };
-    }
-
-    return &reserves;
-}
-*/
-
-// void HotelAPI::on_queryFinished(EndPoint ep, QNetworkReply *reply) {
-//     qDebug() << "on_queryFinished";
-//     reply->deleteLater();
-
-//     Response response = generateResponse(ep, reply);
-//     emit queryDataReady(ep, response, reply->readAll());
-
-//     // QJsonDocument jdoc = QJsonDocument::fromJson(reply->readAll());
-//     // const QJsonArray array = jdoc.array();
-
-//     // // em caso de erro na consulta e haja uma mensagem de erro do servidor
-//     // if(!response.success && jdoc.isObject()) {
-//     //     QJsonObject jobj = jdoc.object();
-//     //     response.error = jobj["error"].toString();
-//     // }
-
-//     // switch (ep) {
-
-//     // case GET_ROOMS:
-//     //     emit roomsDataReady(response, generateRoomsFromJArray(response.success, array));
-//     //     break;
-
-//     // case GET_GUESTS:
-//     //     emit guestsDataReady(response, generateGuestsFromJArray(response.success, array));
-//     //     break;
-
-//     // case GET_RESERVES:
-//     //     emit reservesDataReady(response, generateReservesFromJArray(response.success, array));
-//     //     break;
-
-//     // default:
-//     //     break;
-//     // }
-// }
-
-// void HotelAPI::on_createFinished(EndPoint ep, QNetworkReply *reply) {
-//     qDebug() << "on_createFinished";
-//     reply->deleteLater();
-
-//     bool success = reply->error() == QNetworkReply::NoError;
-
-//     // if(success)
-//     //     query(ep);
-
-//     emit createFinished(success);
-// }
-
-// void HotelAPI::on_roomsDataReady(Response response, MapRooms *rooms) {
-//     qDebug() << "on_roomsDataReady" << "success" << response.success;
-
-//     if(rooms)
-//         for(auto [key, value] : rooms->asKeyValueRange()) {
-//             qDebug()
-//             << "<Room id" << value.id
-//             << "name" << value.name
-//             << "floor" << value.floor
-//             << "nightVal" << value.nightVal
-//             << "hourVal" << value.hourVal
-//             << "numCoupleBed" << value.numCoupleBed
-//             << "numSingleBed" << value.numSingleBed
-//             << "bathtub" << value.bathtub
-//             << "balcony" << value.balcony
-//             << ">"
-//                 ;
-//         }
-//     else
-//         qDebug() << "error" << response.error;
-
-//     QCoreApplication::quit();
-// }
-
-// void HotelAPI::on_guestsDataReady(Response response, MapGuests *guests) {
-//     qDebug() << "on_guestsDataReady" << "success" << response.success;
-
-//     if(guests)
-//         for(auto [key, value] : guests->asKeyValueRange()) {
-//             qDebug()
-//             << "<Guest id" << value.id
-//             << "name" << value.name
-//             << "email" << value.email
-//             << ">"
-//                 ;
-//         }
-//     else
-//         qDebug() << "error" << response.error;
-
-//     QCoreApplication::quit();
-// }
-
-// void HotelAPI::on_reservesDataReady(Response response, MapReserves *reserves) {
-//     qDebug() << "on_reservesDataReady" << "success" << response.success;
-
-//     if(reserves)
-//         for(auto [key, value] : reserves->asKeyValueRange()) {
-//             qDebug()
-//             << "<Reserve id" << value.id
-//             << "checkIn" << value.checkIn
-//             << "checkOut" << value.checkOut
-//             << ">"
-//                 ;
-//         }
-//     else
-//         qDebug() << "error" << response.error;
-
-//     QCoreApplication::quit();
-// }

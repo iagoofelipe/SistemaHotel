@@ -21,7 +21,13 @@ public:
     ~MainWindow();
 
     void initialize();
-    void setRoomsData(MapRooms* rooms);
+    void setRoomsData(api::MapRooms* rooms);
+    void setGuestsData(api::MapGuests* guests);
+    void setRoomsData(api::MapRooms* rooms);
+    
+    void clearRooms();
+    void clearGuests();
+    void clearReserves();
 
 private:
     Ui::MainWindow *ui;
