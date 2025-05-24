@@ -1,10 +1,10 @@
 #include "app.h"
 
 App::App(int argc, char **argv)
-    : QApplication{argc, argv}
-    , model{new Model}
-    , window{new MainWindow{model}}
-    , controller{new Controller{model, window}}
+    : QApplication(argc, argv)
+    , model(new AppModel)
+    , view(new AppView(model))
+    , controller(new AppController(model, view))
 {}
 
 int App::exec() {

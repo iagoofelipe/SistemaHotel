@@ -9,4 +9,5 @@ urlpatterns = [
     path('reserve', views.reserve),
     path('checkReservedRoom', views.checkReservedRoom),
     path('guest', views.guest),
+    path('getGuestById', views.getGuestById),
 ]

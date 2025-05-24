@@ -124,6 +124,18 @@ def reserve(request:HttpRequest):
             if not data.exists():
                 return tools.errorResponse('dados não encontrados', status.HTTP_404_NOT_FOUND)
 
+            # guests = {}
+            # rooms = {}
+            # finalData = []
+
+            # for item in data:
+            #     row = {
+            #         "id": item.pk,
+            #         "checkIn": 
+            #     }
+            #     guestId = item.objects 
+            
+
             return Response(ReserveSerializer(data, many=True).data)
         
         case 'POST':
@@ -154,6 +166,18 @@ def reserve(request:HttpRequest):
             serializer.save()
             return Response(serializer.data)
             
+@api_view(['GET'])
+def getGuestById(request:HttpRequest):
+    if 'id' not in request.GET:
+        return tools.errorResponse()
+    
+    try:
+        guest = Guest.objects.get(pk=request.GET['id'])
+    
+    except:
+        return tools.errorResponse('usuário não encontrado para o id especificado', status.HTTP_404_NOT_FOUND)
+
+    return Response(GuestSerializer(guest).data)
 
 @api_view(['GET'])
 def checkReservedRoom(request:HttpRequest):

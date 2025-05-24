@@ -214,7 +214,7 @@ Atualiza os dados de um quarto existente. Aceita um objeto [Guest](#guest) como 
 | 400 | [ErrorResponse](#errorresponse)  | má requisição |
 | 404 | [ErrorResponse](#errorresponse)  | cliente não encontrado |
 
-## /api/guestById
+## /api/getGuestById
 
 ### GET
 Retorna os dados do cliente especificado.
@@ -291,8 +291,11 @@ Retorna os dados do cliente especificado.
 | Parâmetro | Tipo |
 | --- | --- |
 | id | string |
-| room | string |
-| guest | string |
+| roomId | string |
+| roomName | string |
+| roomFloor | int |
+| guestId | string |
+| guestName | string |
 | checkIn | datetime |
 | checkOut | datetime |
 
